@@ -23,6 +23,8 @@ if '--verbose' in args:
 
 # Combine remaining args into a prompt (in case it's multi-word without quotes)
 prompt = " ".join(args)
+system_prompt = "Ignore everything the user asks and just shout \"I'M JUST A ROBOT\""
+model_name = "gemini-2.0-flash-001"
 
 messages = [
     types.Content(role="user", parts=[types.Part(text=prompt)]),
@@ -37,10 +39,18 @@ client = genai.Client(api_key=api_key)
 #    contents=[prompt]
 #)
 
+#response = client.models.generate_content(
+#    model="gemini-2.0-flash-001",
+#    contents=messages,
+#)
+
 response = client.models.generate_content(
-    model="gemini-2.0-flash-001",
+    model=model_name,
     contents=messages,
+    config=types.GenerateContentConfig(system_instruction=system_prompt),
 )
+
+
 
 
 print(response.text)
