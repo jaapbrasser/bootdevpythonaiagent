@@ -1,4 +1,5 @@
 import os
+from google.generativeai import types
 
 def get_file_content(working_directory, file_path):
     try:
@@ -26,3 +27,20 @@ def get_file_content(working_directory, file_path):
 
     except Exception as e:
         return f"Error: {str(e)}"
+
+
+
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Reads and returns the contents of a file within the working directory. Truncates if larger than 10,000 characters.",
+    parameters={
+        "type": "object",
+        "properties": {
+            "file_path": {
+                "type": "string",
+                "description": "Relative path to the file to read."
+            }
+        },
+        "required": ["file_path"]
+    }
+)

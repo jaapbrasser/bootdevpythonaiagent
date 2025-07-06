@@ -1,5 +1,6 @@
 # functions/write_file.py
 import os
+from google.generativeai import types
 
 def write_file(working_directory, file_path, content):
     try:
@@ -22,3 +23,22 @@ def write_file(working_directory, file_path, content):
 
     except Exception as e:
         return f"Error: {str(e)}"
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="Writes or overwrites the contents of a file within the working directory.",
+    parameters={
+        "type": "object",
+        "properties": {
+            "file_path": {
+                "type": "string",
+                "description": "Relative path to the file to write."
+            },
+            "content": {
+                "type": "string",
+                "description": "The content to write into the file."
+            }
+        },
+        "required": ["file_path", "content"]
+    }
+)
